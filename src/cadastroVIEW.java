@@ -146,6 +146,7 @@ public class cadastroVIEW extends javax.swing.JFrame {
     }//GEN-LAST:event_cadastroNomeActionPerformed
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
+        try{
         ProdutosDTO produto = new ProdutosDTO();
         String nome = cadastroNome.getText();
         String valor = cadastroValor.getText();
@@ -156,11 +157,11 @@ public class cadastroVIEW extends javax.swing.JFrame {
         
         ProdutosDAO produtodao = new ProdutosDAO();
         
-        try {
+        
             produtodao.cadastrarProduto(produto);
-        } catch (SQLException ex) {
+        } catch (SQLException |NumberFormatException ex) {
             Logger.getLogger(cadastroVIEW.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, produto.getNome());
+           JOptionPane.showMessageDialog(null, "Erro ao tentar cadastrar o item.");
         }
        
         

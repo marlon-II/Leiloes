@@ -25,7 +25,7 @@ public class ProdutosDAO {
     
     public void cadastrarProduto (ProdutosDTO produto) throws SQLException{
       
-        
+        try{
         conn = new conectaDAO().connectDB();
         
         String sql = "INSERT INTO produtos(nome, valor, status) VALUES (?, ?, ?)";
@@ -36,6 +36,13 @@ public class ProdutosDAO {
         prep.setString(3, produto.getStatus());
         
         prep.execute();
+        
+          JOptionPane.showMessageDialog(null, "Item cadastrado com sucesso.");
+        }
+        catch(SQLException se ){
+            JOptionPane.showMessageDialog(null, "Erro ao tentar cadastrar o item.");
+        }
+        
         
     }
     
