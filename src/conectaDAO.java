@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
  * @author Adm
  */
 public class conectaDAO {
+     
     
     public Connection connectDB(){
         Connection conn = null;
