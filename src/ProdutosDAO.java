@@ -8,12 +8,14 @@
  * @author Adm
  */
 
+import com.mysql.cj.Query;
 import java.sql.PreparedStatement;
 import java.sql.Connection;
 import javax.swing.JOptionPane;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
 
 
 public class ProdutosDAO {
@@ -37,6 +39,8 @@ public class ProdutosDAO {
         
         prep.execute();
         
+        conn.close();
+        prep.close();
           JOptionPane.showMessageDialog(null, "Item cadastrado com sucesso.");
         }
         catch(SQLException se ){
@@ -46,10 +50,30 @@ public class ProdutosDAO {
         
     }
     
-    public ArrayList<ProdutosDTO> listarProdutos(){
+    public  ArrayList<ProdutosDTO> listarProdutos() throws SQLException {
+        conn =  new conectaDAO().connectDB();
         
+        String sql = "SELECT * FROM produtos";
+        prep = conn.prepareStatement(sql);
+        ResultSet rs = prep.executeQuery();
+        
+        while(rs.next()){
+            ProdutosDTO produto = new ProdutosDTO();
+            produto.setId(rs.getInt("id"));
+            produto.setNome(rs.getString("nome"));
+            produto.setValor(rs.getInt("valor"));
+            produto.setStatus(rs.getString("status"));
+            listagem.add(produto);
+        }
+        rs.close();
+        prep.close();
+        conn.close();
         return listagem;
     }
+    
+    
+        
+    
     
     
     
