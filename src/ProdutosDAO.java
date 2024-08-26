@@ -25,6 +25,7 @@ public class ProdutosDAO {
     ResultSet resultset;
     ArrayList<ProdutosDTO> listagem = new ArrayList<>();
     
+    
     public void cadastrarProduto (ProdutosDTO produto) throws SQLException{
       
         try{
@@ -53,6 +54,8 @@ public class ProdutosDAO {
     public  ArrayList<ProdutosDTO> listarProdutos() throws SQLException {
         conn =  new conectaDAO().connectDB();
         
+       
+        
         String sql = "SELECT * FROM produtos";
         prep = conn.prepareStatement(sql);
         ResultSet rs = prep.executeQuery();
@@ -71,8 +74,46 @@ public class ProdutosDAO {
         return listagem;
     }
     
-    
+    public void venderProduto(ProdutosDTO produtos) throws SQLException {
+   
         
+    conn = new conectaDAO().connectDB();
+    
+    String sql = "UPDATE produtos SET status = 'Vendido' WHERE id = ?";
+    prep = conn.prepareStatement(sql);
+    
+    prep.setInt(1, produtos.getId());
+    prep.execute();
+    
+    prep.close();
+    conn.close();
+}
+        
+    public  ArrayList<ProdutosDTO> listarProdutosVendidos() throws SQLException{
+        
+        
+        conn =  new conectaDAO().connectDB();
+        
+         
+         
+        String sql = "SELECT * FROM produtos WHERE status = 'Vendido'";
+        prep = conn.prepareStatement(sql);
+        
+        ResultSet rs = prep.executeQuery();
+        
+        while(rs.next()){
+           ProdutosDTO produto = new ProdutosDTO(); 
+            produto.setId(rs.getInt("id"));
+            produto.setNome(rs.getString("nome"));
+            produto.setValor(rs.getInt("valor"));
+            produto.setStatus(rs.getString("status"));
+            listagem.add(produto);
+        }
+        rs.close();
+        prep.close();
+        conn.close();
+        return listagem;
+    }
     
     
     
