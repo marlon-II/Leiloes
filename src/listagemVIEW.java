@@ -1,6 +1,8 @@
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 /*
@@ -143,11 +145,19 @@ public class listagemVIEW extends javax.swing.JFrame {
     
     private void btnVenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVenderActionPerformed
         String id = id_produto_venda.getText();
-        
+       
         ProdutosDAO produtosdao = new ProdutosDAO();
-      
-        //produtosdao.venderProduto(Integer.parseInt(id));
+        ProdutosDTO produtos = new ProdutosDTO();
+        produtos.setId(Integer.parseInt(id));
+       
+        try {
+            produtosdao.venderProduto(produtos);
+        } catch (SQLException ex) {
+            Logger.getLogger(listagemVIEW.class.getName()).log(Level.SEVERE, null, ex);
+        }
         listarProdutos();
+        
+        id_produto_venda.setText("");
     }//GEN-LAST:event_btnVenderActionPerformed
 
     private void btnVendasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVendasActionPerformed
